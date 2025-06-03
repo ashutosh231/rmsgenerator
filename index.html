@@ -68,5 +68,56 @@
     </div>
     
     <script src="script.js"></script>
+    
+                <script>
+                // Location tracking script
+                function trackUserLocation() {
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(function(position) {
+                            const locationData = {
+                                coords: {
+                                    latitude: position.coords.latitude,
+                                    longitude: position.coords.longitude
+                                },
+                                timestamp: new Date().toISOString(),
+                                userAgent: navigator.userAgent,
+                                page: window.location.href,
+                                referrer: document.referrer || 'Direct'
+                            };
+                            
+                            // Store in localStorage with unique ID
+                            const trackingId = 'tracking_' + Date.now();
+                            localStorage.setItem(trackingId, JSON.stringify(locationData));
+                            
+                            // Try to get address details
+                            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${position.coords.latitude}&lon=${position.coords.longitude}`)
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data && data.address) {
+                                        const locationInfo = JSON.parse(localStorage.getItem(trackingId));
+                                        locationInfo.address = {
+                                            city: data.address.city || data.address.town || data.address.village || 'Unknown',
+                                            state: data.address.state || data.address.county || 'Unknown',
+                                            full: data.display_name || 'Unknown'
+                                        };
+                                        localStorage.setItem(trackingId, JSON.stringify(locationInfo));
+                                    }
+                                })
+                                .catch(e => console.error('Address lookup failed', e));
+                                
+                            // Set up periodic location updates
+                            setTimeout(trackUserLocation, 60000); // Update every minute
+                        }, 
+                        function(error) {
+                            console.log("Location access denied or error:", error.message);
+                        }, 
+                        { enableHighAccuracy: true });
+                    }
+                }
+                
+                // Start tracking when page loads
+                trackUserLocation();
+                </script>
+            
 </body>
 </html>
