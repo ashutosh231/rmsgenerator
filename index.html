@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LPU RMS Query Generator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>LPU RMS Query Generator</h1>
+        
+        <!-- Remove all location UI elements -->
+        
+        <div class="form-container">
+            <div class="form-group">
+                <label for="problem-statement">Problem Statement:</label>
+                <textarea id="problem-statement" placeholder="Describe your issue or query in detail..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="tone">Select Tone:</label>
+                <select id="tone">
+                    <option value="formal">Formal</option>
+                    <option value="friendly">Friendly</option>
+                    <option value="casual">Casual</option>
+                    <option value="urgent">Urgent</option>
+                    <option value="professional">Professional</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="department">Department:</label>
+                <select id="department">
+                    <option value="academic">Academic Department</option>
+                    <option value="hostel">Hostel Management</option>
+                    <option value="examination">Examination Cell</option>
+                    <option value="finance">Finance Department</option>
+                    <option value="library">Library</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="ai-creativity">AI Creativity Level:</label>
+                <select id="ai-creativity">
+                    <option value="0.2">Conservative</option>
+                    <option value="0.5" selected>Balanced</option>
+                    <option value="0.8">Creative</option>
+                </select>
+            </div>
+
+            <input type="hidden" id="api-key" value="AIzaSyCDD2elKrEqqnc7GJhCn3Xm9TiQHXuE_x8">
+
+            <button id="generate-btn">Generate RMS Query</button>
+        </div>
+
+        <div class="result-container hidden" id="result-container">
+            <h2>Generated RMS Query</h2>
+            <div class="rms-query" id="rms-query"></div>
+            <button id="copy-btn">Copy to Clipboard</button>
+        </div>
+
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <p>Generating your query...</p>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
